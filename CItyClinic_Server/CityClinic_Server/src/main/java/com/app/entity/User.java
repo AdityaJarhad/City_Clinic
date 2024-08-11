@@ -17,12 +17,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class User extends BaseEntity {
-	
+
 	private String name;
 	private String email;
-    private String password;
-    private String role;
-    private String contactNumber;
-    private String address;
-    
+	private String password;
+	private String role;
+	private String contactNumber;
+	private String address;
+
 }

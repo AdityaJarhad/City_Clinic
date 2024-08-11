@@ -22,13 +22,13 @@ import lombok.ToString;
 public class Clinic extends BaseEntity {
 
 	private String name;
-    private String address;
-    private String moNo;
-    private String email;
-    private String description;
-    
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", nullable = false)
-    private Location location;
-	
+	private String address;
+	private String moNo;
+	private String email;
+	private String description;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "location_id", nullable = false)
+	private Location location;
+
 }
