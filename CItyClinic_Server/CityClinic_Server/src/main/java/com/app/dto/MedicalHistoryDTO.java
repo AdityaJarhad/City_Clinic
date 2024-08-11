@@ -32,4 +32,6 @@ public class MedicalHistoryDTO {
     
     @NotNull
     private LocalDate visitDate;
+    
+    private String documentURL;
 }

@@ -28,4 +28,5 @@ public class MedicalHistory extends BaseEntity {
 	private String diagnosis;
 	private String treatment;
 	private LocalDate visitDate;
+	private String documentURL;
 }

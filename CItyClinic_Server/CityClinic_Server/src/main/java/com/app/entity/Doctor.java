@@ -9,8 +9,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -22,38 +22,21 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Doctor extends BaseEntity {
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)  //optional BUT reco -- to specify name of the FK column + not null constraint
-	private User user;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
+
+	@OneToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user; // User is now the primary key
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "specialization_id", nullable = false)
 	private Specialization specialization;
-	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "clinic_id", nullable = false)
 	private Clinic clinic;
-	
+
 	private String qualifications;
-    private String experience;
-    private String availabilitySchedule;
-    private String profilePicture;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	private String experience;
+	private String availabilitySchedule;
+	private String profilePicture;
 }

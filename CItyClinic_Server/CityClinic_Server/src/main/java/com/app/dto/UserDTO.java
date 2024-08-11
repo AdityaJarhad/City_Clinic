@@ -4,6 +4,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import com.app.entity.Role;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,8 +30,8 @@ public class UserDTO {
     @Email(message = "Email should be valid")
     private String email;
 
-    @NotBlank(message = "Role is required")
-    private String role;
+   
+    private Role role;
 
     @NotBlank(message = "Contact number is required")
     @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Contact number is invalid")

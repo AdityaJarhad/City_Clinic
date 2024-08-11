@@ -17,24 +17,21 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ClinicDTO {
-    
-    @NotBlank(message = "Clinic name is required")
-    private String name;
 
-    @NotBlank(message = "Address is required")
-    private String address;
+	@NotBlank(message = "Clinic name is required")
+	private String name;
 
-    @NotBlank(message = "Description is required")
-    private String description;
+	@NotBlank(message = "Description is required")
+	private String description;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Email should be valid")
-    private String email;
+	@NotBlank(message = "Email is required")
+	@Email(message = "Email should be valid")
+	private String email;
 
-    @NotBlank(message = "Mobile number is required")
-    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Mobile number is invalid")
-    private String moNo;
+	@NotBlank(message = "Mobile number is required")
+	@Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Mobile number is invalid")
+	private String moNo;
 
-    @NotNull(message = "Location ID is required")
-    private Long locationId;
+	@NotNull(message = "Location ID is required")
+	private Long locationId;
 }
