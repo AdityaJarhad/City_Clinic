@@ -3,6 +3,8 @@ package com.app.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import com.app.entity.User;
 import com.app.repository.IUserRepository;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
