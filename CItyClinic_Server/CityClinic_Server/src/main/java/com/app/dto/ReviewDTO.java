@@ -25,8 +25,9 @@ public class ReviewDTO {
     @NotNull
     private Long doctorId;
     
-    @Min(1)
-    @Max(10)
+    @NotNull(message = "Rating is required")
+    @Min(value = 1, message = "Rating must be at least 1")
+    @Max(value = 5, message = "Rating must be at most 5")
     private Long rating;
     
     @NotNull

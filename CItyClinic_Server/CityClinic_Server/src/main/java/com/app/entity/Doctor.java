@@ -22,23 +22,38 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Doctor extends BaseEntity {
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false) // optional BUT reco -- to specify name of the FK column + not null
-													// constraint
+	@JoinColumn(name = "user_id", nullable = false)  //optional BUT reco -- to specify name of the FK column + not null constraint
 	private User user;
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "specialization_id", nullable = false)
 	private Specialization specialization;
-
+	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "clinic_id", nullable = false)
 	private Clinic clinic;
-
+	
 	private String qualifications;
-	private String experience;
-	private String availabilitySchedule;
-	private String profilePicture;
-
+    private String experience;
+    private String availabilitySchedule;
+    private String profilePicture;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

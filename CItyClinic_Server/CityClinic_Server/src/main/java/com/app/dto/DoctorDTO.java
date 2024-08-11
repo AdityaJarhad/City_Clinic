@@ -16,23 +16,23 @@ import lombok.ToString;
 @ToString
 public class DoctorDTO {
     
-    @NotNull
-    private Long userId;
-    
-    @NotNull
-    private Long specializationId;
-    
-    @NotNull
-    private Long clinicId;
-    
-    @NotBlank
+	@NotBlank(message = "Qualifications are required")
     private String qualifications;
-    
-    @NotBlank
+
+    @NotBlank(message = "Experience is required")
     private String experience;
-    
-    @NotBlank
+
+    @NotBlank(message = "Availability schedule is required")
     private String availabilitySchedule;
-    
+
     private String profilePicture;
+
+    @NotNull(message = "Specialization ID is required")
+    private Long specializationId;
+
+    @NotNull(message = "User ID is required")
+    private Long userId;
+
+    @NotNull(message = "Clinic ID is required")
+    private Long clinicId;
 }

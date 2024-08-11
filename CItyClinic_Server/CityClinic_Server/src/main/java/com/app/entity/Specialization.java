@@ -17,7 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Specialization extends BaseEntity {
-
+	
 	private String name;
 
 }

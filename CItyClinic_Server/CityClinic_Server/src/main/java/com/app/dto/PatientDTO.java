@@ -15,6 +15,6 @@ import lombok.ToString;
 @ToString
 public class PatientDTO {
     
-    @NotNull
+	 @NotNull(message = "User ID is required")
     private Long userId;
 }

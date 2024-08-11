@@ -2,7 +2,7 @@ package com.app.dto;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -26,7 +26,7 @@ public class AppointmentDTO {
     private Long doctorId;
     
     @NotNull
-    @FutureOrPresent
+    @Future(message = "Appointment date must be in the future")
     private LocalDate appointmentDate;
     
     @NotBlank

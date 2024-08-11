@@ -17,12 +17,12 @@ import java.time.LocalDate;
 @ToString
 public class TestResults extends BaseEntity {
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "medical_history_id")
-	private MedicalHistory medicalHistory;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "medical_history_id")
+    private MedicalHistory medicalHistory;
 
-	private String testName;
-	private LocalDate testDate;
-	private String status;
-	private String documentURL;
+    private String testName;
+    private LocalDate testDate;
+    private String status;
+    private String documentURL;
 }

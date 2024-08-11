@@ -1,6 +1,7 @@
 package com.app.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +25,8 @@ public class LocationDTO {
     @NotBlank
     private String state;
     
-    @NotBlank
+    @NotBlank(message = "Zip code is required")
+    @Pattern(regexp = "^[0-9]{5}(?:-[0-9]{4})?$", message = "Invalid zip code")
     private String zipCode;
     
     @NotBlank

@@ -23,5 +23,5 @@ public class Location extends BaseEntity {
 	private String state;
 	private String zip_code;
 	private String country;
-
+	
 }
