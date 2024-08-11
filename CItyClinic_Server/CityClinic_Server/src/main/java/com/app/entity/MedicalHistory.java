@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @ToString
 public class MedicalHistory extends BaseEntity {
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "patient_id", nullable = false)
 	private Patient patient;
 
