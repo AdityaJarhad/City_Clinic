@@ -17,3 +17,8 @@ C. Repository
 2. No need of IPatientRepository
 3. chk IReviewRepository
 4. chk IUserRepository to improve more
+
+
+D. UserServiceImpl -> 
+ 1.   @Autowired
+    private ModelMapper mapper;
