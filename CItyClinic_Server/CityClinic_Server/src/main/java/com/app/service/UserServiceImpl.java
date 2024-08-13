@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.UserDTO;
@@ -20,70 +21,83 @@ import com.app.repository.IUserRepository;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private IUserRepository userRepo;
+	@Autowired
+	private IUserRepository userRepo;
 
-    @Autowired
-    private ModelMapper modelMapper;
-    
-    @Autowired
-    private IPatientRepository patientRepo;
+	@Autowired
+	private ModelMapper modelMapper;
 
-    @Override
-    public UserDTO registerNewUser(UserDTO userDto) {
-        // Map the UserDTO to a User entity
-        User user = modelMapper.map(userDto, User.class);
+	@Autowired
+	private IPatientRepository patientRepo;
 
-        // Save the user to the database
-        User savedUser = userRepo.save(user);
+	@Autowired
+	private PasswordEncoder encoder; // Injecting PasswordEncoder
 
-        // If the role is 'Patient', create a corresponding Patient record
-        if (user.getRole() == Role.PATIENT) {
-            Patient patient = new Patient();
-            patient.setUser(savedUser);
-            patientRepo.save(patient);
-        }
+	@Override
+	public UserDTO registerNewUser(UserDTO userDto) {
+		// Check if email already exists
+		if (userRepo.existsByEmail(userDto.getEmail())) {
+			throw new IllegalArgumentException("Email already exists !!!");
+		}
 
-        // Return the saved user as a DTO
-        return modelMapper.map(savedUser, UserDTO.class);
-    }
-    @Override
-    public UserDTO updateUser(Long userId, UserDTO userDto) {
-        User existingUser = userRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        
-        // Update fields
-        existingUser.setName(userDto.getName());
-        existingUser.setEmail(userDto.getEmail());
-        existingUser.setPassword(userDto.getPassword());
-        existingUser.setRole(userDto.getRole());
-        existingUser.setContactNumber(userDto.getContactNumber());
-        existingUser.setAddress(userDto.getAddress());
-       
+		// Map the UserDTO to a User entity
+		User user = modelMapper.map(userDto, User.class);
 
-        User updatedUser = userRepo.save(existingUser);
-        return modelMapper.map(updatedUser, UserDTO.class);
-    }
+		// Encode the password before saving
+		user.setPassword(encoder.encode(user.getPassword()));
 
-    @Override
-    public UserDTO getUserById(Long userId) {
-        User user = userRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        return modelMapper.map(user, UserDTO.class);
-    }
+		// Save the user to the database
+		User savedUser = userRepo.save(user);
 
-    @Override
-    public List<UserDTO> getAllUsers() {
-        List<User> users = userRepo.findAll();
-        return users.stream()
-                .map(user -> modelMapper.map(user, UserDTO.class))
-                .collect(Collectors.toList());
-    }
+		// If the role is 'Patient', create a corresponding Patient record
+		if (user.getRole() == Role.PATIENT) {
+			Patient patient = new Patient();
+			patient.setUser(savedUser);
+			patientRepo.save(patient);
+		}
 
-    @Override
-    public void deleteUser(Long userId) {
-        User user = userRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        userRepo.delete(user);
-    }
+		// Return the saved user as a DTO
+		return modelMapper.map(savedUser, UserDTO.class);
+	}
+
+	@Override
+	public UserDTO updateUser(Long userId, UserDTO userDto) {
+		User existingUser = userRepo.findById(userId)
+				.orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+		// Update fields
+		existingUser.setName(userDto.getName());
+		existingUser.setEmail(userDto.getEmail());
+		existingUser.setRole(userDto.getRole());
+		existingUser.setContactNumber(userDto.getContactNumber());
+		existingUser.setAddress(userDto.getAddress());
+
+		// Update the password only if it's provided
+		if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+			existingUser.setPassword(encoder.encode(userDto.getPassword()));
+		}
+
+		User updatedUser = userRepo.save(existingUser);
+		return modelMapper.map(updatedUser, UserDTO.class);
+	}
+
+	@Override
+	public UserDTO getUserById(Long userId) {
+		User user = userRepo.findById(userId)
+				.orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+		return modelMapper.map(user, UserDTO.class);
+	}
+
+	@Override
+	public List<UserDTO> getAllUsers() {
+		List<User> users = userRepo.findAll();
+		return users.stream().map(user -> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	public void deleteUser(Long userId) {
+		User user = userRepo.findById(userId)
+				.orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+		userRepo.delete(user);
+	}
 }

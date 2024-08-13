@@ -4,6 +4,7 @@ import com.app.dto.DoctorRegistrationRequest;
 import com.app.entity.Doctor;
 import com.app.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
+    @PreAuthorize("hasRole('DOCTOR')")
     @PostMapping("/register")
     public void registerDoctor(@RequestBody DoctorRegistrationRequest request) {
         doctorService.registerDoctor(request);
