@@ -65,6 +65,13 @@ public class UserServiceImpl implements UserService {
 		User existingUser = userRepo.findById(userId)
 				.orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
 
+		// Check if the provided password matches the existing user's password
+	    if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+	        if (!encoder.matches(userDto.getPassword(), existingUser.getPassword())) {
+	            throw new IllegalArgumentException("Incorrect password. Update failed.");
+	        }
+	    }
+		
 		// Update fields
 		existingUser.setName(userDto.getName());
 		existingUser.setEmail(userDto.getEmail());

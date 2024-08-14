@@ -3,6 +3,7 @@ package com.app.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 @EnableWebSecurity
 @Configuration
@@ -34,8 +36,8 @@ public class SecurityConfig {
 //                .antMatchers("/api/users/register","api/doctors/register", "/api/authenticate", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**","/api/users/signin") // Add Swagger endpoints
 //                .permitAll() // Allow unrestricted access to these endpoints
 //                .antMatchers(HttpMethod.OPTIONS).permitAll() // Allow pre-flight requests for CORS
-//                .antMatchers("/api/doctors/**").hasRole("DOCTOR")
-//                .antMatchers("/api/patients/**").hasRole("PATIENT")
+//                .antMatchers("/api/doctors/**").permitAll()
+//                .antMatchers("/api/patients/**").permitAll()
 //                .antMatchers("/api/users/**").hasAnyRole("DOCTOR", "PATIENT")
 //                .anyRequest().authenticated() // All other requests require authentication
 //            .and()
@@ -48,21 +50,39 @@ public class SecurityConfig {
 //        return http.build();
 //    }
 
-	
 	@Bean
-    public SecurityFilterChain authorizeRequests(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable() // Disable CSRF as we use JWT
-            .authorizeRequests()
-                .anyRequest().permitAll() // Allow unrestricted access to all requests
-            .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Use stateless session
-            .and()
-                .exceptionHandling().authenticationEntryPoint(authEntry) // Handle unauthorized access
-            .and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter before Spring Security's filter
+	public SecurityFilterChain authorizeRequests(HttpSecurity http) throws Exception {
+	    http.cors().and().csrf().disable() // Disable CSRF as we use JWT
+	        .authorizeRequests()
+	            .anyRequest().permitAll() // Allow unrestricted access to all requests
+	        .and()
+	            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Use stateless session
+	        .and()
+	            .exceptionHandling().authenticationEntryPoint(authEntry) // Handle unauthorized access
+	        .and()
+	            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter before Spring Security's filter
 
-        return http.build();
-    }
+	    return http.build();
+	}
+
+
+//	@Bean
+//	public CorsConfigurationSource corsConfigurationSource() {
+//	    CorsConfiguration configuration = new CorsConfiguration();
+//	    configuration.setAllowedOriginPatterns(Arrays.asList("*")); // Allow all origins
+//	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allow all HTTP methods
+//	    configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // Allow specific headers
+//	    configuration.setAllowCredentials(true); // Allow credentials
+//
+//	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//	    source.registerCorsConfiguration("/**", configuration); // Apply CORS settings to all endpoints
+//	    return source;
+//	}
+
+
+
+
+
 
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {

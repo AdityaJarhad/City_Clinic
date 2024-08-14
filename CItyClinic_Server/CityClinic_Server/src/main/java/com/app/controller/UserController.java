@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.dto.SigninRequest;
 import com.app.dto.SigninResponse;
 import com.app.dto.UserDTO;
+import com.app.security.CustomUserDetailsService;
 import com.app.security.JwtUtils;
 import com.app.service.UserService;
 
+@CrossOrigin(origins ="http://localhost:5173")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -39,6 +43,9 @@ public class UserController {
 
     @Autowired
     private AuthenticationManager authMgr;
+    
+    @Autowired
+    private CustomUserDetailsService service;
 
 
     @PostMapping("/register")
@@ -55,6 +62,7 @@ public class UserController {
         return ResponseEntity.ok(createdUser);
     }
 
+
     @PutMapping("/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @Valid @RequestBody UserDTO userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -68,6 +76,7 @@ public class UserController {
         UserDTO updatedUser = userService.updateUser(userId, userDto);
         return ResponseEntity.ok(updatedUser);
     }
+
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
@@ -95,8 +104,10 @@ public class UserController {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
         Authentication verifiedToken = authMgr.authenticate(token);
         
+        UserDetails userDetails = service.loadUserByUsername(request.getEmail());
+        
         // Generate JWT token
-        SigninResponse resp = new SigninResponse(jwtUtils.generateJwtToken(verifiedToken), "Successful Auth!!!!");
+        SigninResponse resp = new SigninResponse(jwtUtils.generateJwtToken(verifiedToken), "Successful Auth!!!!",userDetails);
         return ResponseEntity.ok(resp);
     }
     
