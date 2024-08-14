@@ -14,6 +14,8 @@ import HomeComp from "../components/HomeComp";
             path: '/',
             element: <HomeComp />
         }
+
+        
       ]
     },
   ]);

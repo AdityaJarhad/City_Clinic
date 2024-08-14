@@ -1,8 +1,13 @@
 import React from 'react'
+import BannerComp from './BannerComp'
 
 const HomeComp = () => {
   return (
-    <div>HomeComp</div>
+    <div className=''>
+        <BannerComp></BannerComp>
+        {/* <div className='h-screen'></div>
+        <div className='h-screen bg-red-500'></div> */}
+    </div>
   )
 }
 
