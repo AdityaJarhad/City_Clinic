@@ -1,14 +1,17 @@
-import React from 'react'
-import BannerComp from './BannerComp'
+import React from 'react';
+import BannerComp from './BannerComp';
 
+import PromoBanner from './PromoBanner';
+import CategoryBanner from './CategoryBanner';
 const HomeComp = () => {
   return (
-    <div className=''>
-        <BannerComp></BannerComp>
-        {/* <div className='h-screen'></div>
-        <div className='h-screen bg-red-500'></div> */}
+    <div>
+      <BannerComp />
+      
+      <PromoBanner />
+      <CategoryBanner />
     </div>
-  )
-}
+  );
+};
 
-export default HomeComp
+export default HomeComp;

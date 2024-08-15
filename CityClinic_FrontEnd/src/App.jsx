@@ -1,11 +1,18 @@
-import { Outlet } from "react-router-dom";
-import NavbarComp from "./components/NavbarComp";
+import './App.css';
+import { Outlet } from 'react-router-dom';
+import NavbarComp from './Components/NavbarComp';
+import FooterComp from './Components/FooterComp';
 
-export default function App() {
+function App() {
   return (
     <>
-      <NavbarComp></NavbarComp>
-      <Outlet />
+      <NavbarComp />
+      <div className='min-h-screen px-0'>
+        <Outlet />
+      </div>
+      <FooterComp />
     </>
-  )
+  );
 }
+
+export default App;
