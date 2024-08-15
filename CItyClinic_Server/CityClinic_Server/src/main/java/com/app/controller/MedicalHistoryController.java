@@ -10,6 +10,7 @@ import com.app.dto.MedicalHistoryDTO;
 import com.app.entity.MedicalHistory;
 import com.app.service.MedicalHistoryService;
 
+@CrossOrigin(origins ="http://localhost:5173")
 @RestController
 @RequestMapping("/api/medical-history")
 public class MedicalHistoryController {

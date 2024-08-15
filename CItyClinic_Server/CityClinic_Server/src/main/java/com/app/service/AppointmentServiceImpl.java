@@ -34,36 +34,38 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public AppointmentDTO updateAppointment(Long appointmentId, AppointmentDTO appointmentDto) {
 		Appointment appointment = appointmentRepo.findById(appointmentId)
-				.orElseThrow(() -> new RuntimeException("Appointment not found with id : "+appointmentId));
-		
-//		appointment.setPatient(appointmentDto.getPatientId());
-		return null;
+				.orElseThrow(() -> new RuntimeException("Appointment not found with id : " + appointmentId));
+
+		// Update appointment details
+		appointment.setStatus(appointmentDto.getStatus());
+
+		appointment = appointmentRepo.save(appointment);
+
+		return mapper.map(appointment, AppointmentDTO.class);
 	}
 
 	@Override
 	public AppointmentDTO getAppointmentById(Long appointmentId) {
 		Appointment appointment = appointmentRepo.findById(appointmentId)
-				.orElseThrow(() -> new RuntimeException("Appointment not found with id : "+appointmentId));
-		
+				.orElseThrow(() -> new RuntimeException("Appointment not found with id : " + appointmentId));
+
 		return mapper.map(appointment, AppointmentDTO.class);
 	}
 
 	@Override
 	public List<AppointmentDTO> getAllAppointments() {
 		List<Appointment> appointments = appointmentRepo.findAll();
-		
-		return appointments
-                .stream()
-                .map(appointment -> mapper.map(appointment, AppointmentDTO.class))
-                .collect(Collectors.toList());
+
+		return appointments.stream().map(appointment -> mapper.map(appointment, AppointmentDTO.class))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public void deleteAppointment(Long appointmentId) {
 		Appointment appointment = appointmentRepo.findById(appointmentId)
-				.orElseThrow(() -> new RuntimeException("Appointment not found with id : "+appointmentId));
+				.orElseThrow(() -> new RuntimeException("Appointment not found with id : " + appointmentId));
 		appointmentRepo.delete(appointment);
-		
+
 	}
 
 }

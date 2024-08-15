@@ -39,7 +39,7 @@ const Dashboard = () => {
             <h2 className="text-xl font-semibold text-blue-600">Medical History</h2>
             <p className="text-gray-700">View your medical history.</p>
           </div>
-          <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 cursor-pointer" onClick={() => navigate('/dashboard/appointments')}>
+          <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 cursor-pointer" onClick={() => navigate('/dashboard/doctors')}>
             <h2 className="text-xl font-semibold text-blue-600">Appointments</h2>
             <p className="text-gray-700">View your upcoming appointments.</p>
           </div>

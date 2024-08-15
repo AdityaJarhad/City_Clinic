@@ -10,6 +10,7 @@ import com.app.dto.ReviewDTO;
 import com.app.entity.Review;
 import com.app.service.ReviewService;
 
+@CrossOrigin(origins ="http://localhost:5173")
 @RestController
 @RequestMapping("/api/reviews")
 public class ReviewController {
