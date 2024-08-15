@@ -17,6 +17,7 @@ import HomeComp from "../Components/HomeComp"; // Updated to HomeComp based on t
 import NotFound from "../Components/NotFound"; // Import the NotFound component
 import Register from '../Components/Register';
 import Profile from '../Components/Profile';
+import ListOfClinics from '../Components/ListOfClinics';
 
 const router = createBrowserRouter([
     {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
                 path: "/dashboard/user/:id",
                 element: <UserDetail />,
                 loader: ({ params }) => fetch(`http://localhost:8080/users/${params.id}`)
+            },
+            {
+                path: "/ListOfClinics",
+                element: <ListOfClinics />,
             },
             {
                 path: "/profile",
