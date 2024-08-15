@@ -4,11 +4,17 @@ import {
 } from "react-router-dom";
 import App from '../App';
 import Dashboard from "../dashboard/Dashboard";
+<<<<<<< HEAD
+=======
+
+>>>>>>> e37d8a72700e3147fe6217a8e5bb3ae45721c454
 import MedicalHistory from "../dashboard/MedicalHistory"; 
 import ReviewManagement from "../dashboard/ReviewManagement"; 
 import UserManagement from "../dashboard/UserManagement"; 
 import UserDetail from "../dashboard/UserDetail"; 
 import Clinic from "../dashboard/Clinic";
+import DoctorListForAppointments from "../dashboard/DoctorListForAppointments";
+import BookAppointment from "../dashboard/BookAppointment";
 import Login from "../Components/Login";
 import HomeComp from "../Components/HomeComp"; // Updated to HomeComp based on the first example
 import NotFound from "../Components/NotFound"; // Import the NotFound component
@@ -52,6 +58,14 @@ const router = createBrowserRouter([
             {
                 path: "/dashboard/clinic",
                 element: <Clinic />, // Route for the Clinic component
+            },
+            {
+                path: "/book-appointment",
+                element: <BookAppointment />, // Route for the BookAppointment component
+            },
+            {
+                path: "/dashboard/doctors", // New route for viewing doctors
+                element: <DoctorListForAppointments />, // Route for the new component
             },
             {
                 path: "/dashboard/user/:id",
