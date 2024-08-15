@@ -30,7 +30,7 @@ export default function NavbarComp() {
         { label: 'Home', path: '/' },
         { label: 'Login', path: '/login' },
         { label: 'Dashboard', path: '/dashboard' },
-        { label: 'Clinic', path: '/appointments' },
+        { label: 'Clinic', path: '/ListOfClinics' },
         { label: 'Profile', path: '/profile' },
     ];
 

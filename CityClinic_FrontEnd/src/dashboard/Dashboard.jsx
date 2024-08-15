@@ -33,14 +33,14 @@ const Dashboard = () => {
   if (role === "PATIENT") {
     return (
       <div className="p-6 mt-20 bg-gradient-to-r from-teal-200 to-blue-300">
-        <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">Welcome, Patient</h1>
+        <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">Welcome</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 cursor-pointer" onClick={() => navigate('/dashboard/medical-history')}>
             <h2 className="text-xl font-semibold text-blue-600">Medical History</h2>
             <p className="text-gray-700">View your medical history.</p>
           </div>
-          <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 cursor-pointer" onClick={() => navigate('/dashboard/appointments')}>
-            <h2 className="text-xl font-semibold text-blue-600">Appointments</h2>
+          <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 cursor-pointer" onClick={() => navigate('/dashboard/doctors')}>
+            <h2 className="text-xl font-semibold text-blue-600">Book Appointment</h2>
             <p className="text-gray-700">View your upcoming appointments.</p>
           </div>
         </div>
