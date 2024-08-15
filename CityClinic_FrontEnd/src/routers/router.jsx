@@ -4,10 +4,7 @@ import {
 } from "react-router-dom";
 import App from '../App';
 import Dashboard from "../dashboard/Dashboard";
-<<<<<<< HEAD
-=======
 
->>>>>>> e37d8a72700e3147fe6217a8e5bb3ae45721c454
 import MedicalHistory from "../dashboard/MedicalHistory"; 
 import ReviewManagement from "../dashboard/ReviewManagement"; 
 import UserManagement from "../dashboard/UserManagement"; 
@@ -20,7 +17,6 @@ import HomeComp from "../Components/HomeComp"; // Updated to HomeComp based on t
 import NotFound from "../Components/NotFound"; // Import the NotFound component
 import Register from '../Components/Register';
 import Profile from '../Components/Profile';
-import Appointments from "../dashboard/Appointments";
 
 const router = createBrowserRouter([
     {
@@ -46,10 +42,6 @@ const router = createBrowserRouter([
             {
                 path: "/dashboard/reviews",
                 element: <ReviewManagement />,
-            },
-            {
-                path: "/dashboard/appointments",
-                element: <Appointments />
             },
             {
                 path: "/dashboard/users",
