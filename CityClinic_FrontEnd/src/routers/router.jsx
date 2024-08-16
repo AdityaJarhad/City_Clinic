@@ -17,6 +17,7 @@ import HomeComp from "../Components/HomeComp"; // Updated to HomeComp based on t
 import NotFound from "../Components/NotFound"; // Import the NotFound component
 import Register from '../Components/Register';
 import Profile from '../Components/Profile';
+import Appointments from "../dashboard/Appointments";
 
 const router = createBrowserRouter([
     {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
             {
                 path: "/dashboard/doctors", // New route for viewing doctors
                 element: <DoctorListForAppointments />, // Route for the new component
+            },
+            {
+                path: "/dashboard/appointments",
+                element: <Appointments />
             },
             {
                 path: "/dashboard/user/:id",
