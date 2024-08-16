@@ -31,7 +31,7 @@ export default function CategoryBanner() {
       >
         {categories.map(category => (
           <SwiperSlide key={category.title} className=''>
-            <Link to={`/services/${category.title}`}>
+            <Link to={`/ListOfClinics`}>
               <div className='relative'>
                 <img className='h-60' src={category.imgUrl} alt={category.title}/>
               </div>
