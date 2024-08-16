@@ -12,6 +12,7 @@ import UserDetail from "../dashboard/UserDetail";
 import Clinic from "../dashboard/Clinic";
 import DoctorListForAppointments from "../dashboard/DoctorListForAppointments";
 import BookAppointment from "../dashboard/BookAppointment";
+import BookedAppointments from "../dashboard/BookedAppointments";
 import Appointments from "../dashboard/Appointments";
 import Login from "../Components/Login";
 import HomeComp from "../Components/HomeComp"; // Updated to HomeComp based on the first example
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
             {
                 path: "/book-appointment",
                 element: <BookAppointment />, // Route for the BookAppointment component
+            },
+            {
+                path: "/dashboard/booked-appointments",
+                element: <BookedAppointments />, 
             },
             {
                 path: "/dashboard/doctors", // New route for viewing doctors

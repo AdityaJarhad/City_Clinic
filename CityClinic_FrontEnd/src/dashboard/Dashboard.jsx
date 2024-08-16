@@ -51,6 +51,10 @@ const Dashboard = () => {
             <h2 className="text-xl font-semibold text-blue-600">Book Appointment</h2>
             <p className="text-gray-700">View your upcoming appointments.</p>
           </div>
+          <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 cursor-pointer" onClick={() => navigate('/dashboard/booked-appointments')}>
+            <h2 className="text-xl font-semibold text-blue-600">Booked Appointments</h2>
+            <p className="text-gray-700">See your booked appointments.</p>
+          </div>
         </div>
       </div>
     );

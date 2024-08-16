@@ -1,5 +1,6 @@
 package com.app.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,5 +22,13 @@ public interface IAppointmentRepository extends JpaRepository<Appointment, Long>
 
 	@Query("SELECT a FROM Appointment a WHERE a.doctor.id = :doctorId")//JPQL
     List<Appointment> findAppointmentsByDoctorId(@Param("doctorId") Long doctorId);
+	
+	// Query to find appointments for today
+    @Query("SELECT a FROM Appointment a WHERE a.doctor.id = :doctorId AND a.appointmentDate = :date")
+    List<Appointment> findAppointmentsByDoctorIdAndDate(@Param("doctorId") Long doctorId, @Param("date") LocalDate date);
+
+    // Query to find appointments for this week
+    @Query("SELECT a FROM Appointment a WHERE a.doctor.id = :doctorId AND a.appointmentDate BETWEEN :startDate AND :endDate")
+    List<Appointment> findAppointmentsByDoctorIdAndDateRange(@Param("doctorId") Long doctorId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
 }

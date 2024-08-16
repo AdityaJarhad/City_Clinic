@@ -1,5 +1,6 @@
 package com.app.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.AppointmentDTO;
+import com.app.dto.BookedAppointmentDTO;
 import com.app.dto.DetailedAppointmentDTO;
 import com.app.entity.Appointment;
 import com.app.entity.Doctor;
@@ -126,5 +128,81 @@ public class AppointmentServiceImpl implements AppointmentService {
 	            .collect(Collectors.toList());
 	}
 
+	@Override
+    public List<BookedAppointmentDTO> getBookedAppointmentsByPatientId(Long patientId) {
+		
+	
+		
+        Patient patient = patientRepo.findByUserId(patientId)
+                .orElseThrow(() -> new RuntimeException("Patient not found with id : " + patientId));
 
+        List<Appointment> appointments = appointmentRepo.findByPatient(patient);
+
+        return appointments.stream().map(appointment -> {
+            BookedAppointmentDTO dto = new BookedAppointmentDTO();
+            dto.setId(appointment.getId());
+            dto.setDoctorName(appointment.getDoctor().getUser().getName());
+            dto.setClinicName(appointment.getDoctor().getClinic().getName());
+            dto.setAppointmentDate(appointment.getAppointmentDate());
+            dto.setStatus(appointment.getStatus());
+            return dto;
+        }).collect(Collectors.toList());
+    }
+	
+	
+	public List<DetailedAppointmentDTO> getAppointmentsByDoctorIdAndDate(Long doctorId, LocalDate date) {
+		
+		User user = userrepo.getById(doctorId);
+		Optional<Doctor> doctor = doctorRepo.findByUser(user);
+        List<Appointment> appointments = appointmentRepo.findAppointmentsByDoctorIdAndDate(doctor.get().getId(), date);
+        System.out.println("Fetching appointments for doctorId: " + doctorId + " on date: " + date);
+        appointments.forEach(a->System.out.println(a.getStatus()));
+        return appointments.stream()
+	            .map(appointment -> {
+	                // Fetch patient details
+	                Patient patient = appointment.getPatient();
+	                User patientUser = patient.getUser(); // Access the User details from Patient
+
+	                // Map appointment and patient details to DetailedAppointmentDTO
+	                return new DetailedAppointmentDTO(
+	                        appointment.getId(),
+	                        appointment.getDoctor().getId(),
+	                        appointment.getAppointmentDate(),
+	                        appointment.getStatus(),
+	                        patient.getId(), // Patient ID
+	                        patientUser.getName(), // Patient name
+	                        patientUser.getEmail(), // Patient email
+	                        patientUser.getContactNumber(), // Patient contact number
+	                        patientUser.getAddress() // Patient address
+	                );
+	            })
+	            .collect(Collectors.toList());
+    }
+
+    public List<DetailedAppointmentDTO> getAppointmentsByDoctorIdAndDateRange(Long doctorId, LocalDate startDate, LocalDate endDate) {
+    	User user = userrepo.getById(doctorId);
+		Optional<Doctor> doctor = doctorRepo.findByUser(user);
+        List<Appointment> appointments = appointmentRepo.findAppointmentsByDoctorIdAndDateRange(doctor.get().getId(), startDate, endDate);
+        return appointments.stream()
+	            .map(appointment -> {
+	                // Fetch patient details
+	                Patient patient = appointment.getPatient();
+	                User patientUser = patient.getUser(); // Access the User details from Patient
+
+	                // Map appointment and patient details to DetailedAppointmentDTO
+	                return new DetailedAppointmentDTO(
+	                        appointment.getId(),
+	                        appointment.getDoctor().getId(),
+	                        appointment.getAppointmentDate(),
+	                        appointment.getStatus(),
+	                        patient.getId(), // Patient ID
+	                        patientUser.getName(), // Patient name
+	                        patientUser.getEmail(), // Patient email
+	                        patientUser.getContactNumber(), // Patient contact number
+	                        patientUser.getAddress() // Patient address
+	                );
+	            })
+	            .collect(Collectors.toList());
+    }
+	
 }

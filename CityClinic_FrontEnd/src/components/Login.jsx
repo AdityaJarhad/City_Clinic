@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+
 
 const Login = () => {
     const [credentials, setCredentials] = useState({
@@ -106,6 +108,7 @@ const Login = () => {
                     </p>
                 </div>
             </div>
+            <Toaster position='bottom-center'/>
         </div>
     );
 };
