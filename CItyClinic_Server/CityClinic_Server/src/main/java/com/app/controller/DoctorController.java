@@ -44,6 +44,8 @@ public class DoctorController {
 
     @PutMapping("/{id}")
     public void updateDoctor(@PathVariable Long id, @RequestBody DoctorRegistrationRequest request) {
+    	System.out.println("____________________________________");
+    	System.out.println(id+" "+request);
         doctorService.updateDoctor(id, request);
     }
 
@@ -51,4 +53,15 @@ public class DoctorController {
     public void deleteDoctor(@PathVariable Long id) {
         doctorService.deleteDoctor(id);
     }
+    
+    @GetMapping("/user/{userId}") // New endpoint to get DoctorRegistrationRequest by user ID
+    public DoctorRegistrationRequest findByUserId(@PathVariable Long userId) {
+        return doctorService.findByUserId(userId);
+    }
+    
+    @GetMapping("/registrations")
+    public List<DoctorRegistrationRequest> getAllDoctorRegistrations() {
+        return doctorService.getAllDoctorRegistrations();
+    }
+
 }

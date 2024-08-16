@@ -33,7 +33,7 @@ public class AppointmentController {
 
 	@PostMapping("/post")
 	public ResponseEntity<?> newAppointment(@Valid @RequestBody AppointmentDTO dto, BindingResult bindingResult) {
-		
+
 		if (bindingResult.hasErrors()) {
 			Map<String, String> errors = new HashMap<>();
 			bindingResult.getFieldErrors().forEach(error -> {
