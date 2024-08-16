@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
@@ -13,6 +14,23 @@ const Profile = () => {
     const [showModal, setShowModal] = useState(false);
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState(''); // State for message
+    const navigate = useNavigate();
+
+
+    // useEffect(() => {
+    //     const storedUser = localStorage.getItem("user");
+    //     if (storedUser) {
+    //         const userData = JSON.parse(storedUser).user;
+    //         setUser(userData);
+    //         setFormData({
+    //             name: userData.name,
+    //             email: userData.email,
+    //             contactNumber: userData.contactNumber,
+    //             address: userData.address,
+    //             role: userData.role
+    //         });
+    //     }
+    // }, []);
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -26,8 +44,10 @@ const Profile = () => {
                 address: userData.address,
                 role: userData.role
             });
+        } else {
+            navigate('/login'); // Redirect to login if no user is found
         }
-    }, []);
+    }, [navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -71,7 +91,15 @@ const Profile = () => {
         }
     };
 
-    if (!user) return <div>Loading...</div>;
+    const handleLogout = () => {
+        localStorage.clear(); // Clear all local storage
+        navigate('/login'); // Redirect to login page
+    };
+
+    
+
+   if (!user) return <div>Loading...</div>;
+  
 
     return (
         <div className="px-4 lg:px-24 py-12 bg-teal-200 flex justify-center items-center">
@@ -127,6 +155,11 @@ const Profile = () => {
                         Update Details
                     </button>
                 </div>
+
+                {/* Logout Button */}
+                <button onClick={handleLogout} className="mt-4 bg-red-500 text-white w-full py-2 rounded">
+                    Logout
+                </button>
 
                 {/* Modal for Password Input */}
                 {showModal && (

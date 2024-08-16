@@ -1,9 +1,17 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login'); // Redirect to login if user is not logged in
+    }
+  }, [user, navigate]);
 
   const role = user?.user?.role; // Optional chaining to avoid errors
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.AppointmentDTO;
+import com.app.dto.DetailedAppointmentDTO;
 import com.app.service.AppointmentService;
 
 
@@ -76,6 +77,11 @@ public class AppointmentController {
 		List<AppointmentDTO> appointments = appointmentService.getAllAppointments();
 		return ResponseEntity.ok(appointments);
 	}
+	
+	 @GetMapping("/doctor/{doctorId}")
+	    public List<DetailedAppointmentDTO> getAppointmentsByDoctorId(@PathVariable Long doctorId) {
+	        return appointmentService.getAppointmentsByDoctorId(doctorId);
+	    }
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteAppointment(@PathVariable Long id){

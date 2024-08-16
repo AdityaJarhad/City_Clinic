@@ -12,16 +12,13 @@ import UserDetail from "../dashboard/UserDetail";
 import Clinic from "../dashboard/Clinic";
 import DoctorListForAppointments from "../dashboard/DoctorListForAppointments";
 import BookAppointment from "../dashboard/BookAppointment";
+import Appointments from "../dashboard/Appointments";
 import Login from "../Components/Login";
 import HomeComp from "../Components/HomeComp"; // Updated to HomeComp based on the first example
 import NotFound from "../Components/NotFound"; // Import the NotFound component
 import Register from '../Components/Register';
 import Profile from '../Components/Profile';
-<<<<<<< HEAD
-import Appointments from "../dashboard/Appointments";
-=======
 import ListOfClinics from '../Components/ListOfClinics';
->>>>>>> 2b8dd45ed98833fcae5acada2aedc509e9e8e37a
 
 const router = createBrowserRouter([
     {
@@ -65,14 +62,14 @@ const router = createBrowserRouter([
                 element: <DoctorListForAppointments />, // Route for the new component
             },
             {
-                path: "/dashboard/appointments",
-                element: <Appointments />
-            },
-            {
                 path: "/dashboard/user/:id",
                 element: <UserDetail />,
                 loader: ({ params }) => fetch(`http://localhost:8080/users/${params.id}`)
             },
+            {
+                path: "/dashboard/appointments",
+                element: <Appointments />, // Route for the Appointments component
+              },
             {
                 path: "/ListOfClinics",
                 element: <ListOfClinics />,

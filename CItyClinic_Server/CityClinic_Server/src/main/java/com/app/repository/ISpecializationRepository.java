@@ -5,4 +5,5 @@ import com.app.entity.Specialization;
 
 public interface ISpecializationRepository extends JpaRepository<Specialization, Long> {
 
+	Specialization findByName(String name);
 }

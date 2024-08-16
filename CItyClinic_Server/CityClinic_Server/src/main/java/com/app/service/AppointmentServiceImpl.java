@@ -1,6 +1,7 @@
 package com.app.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.AppointmentDTO;
+import com.app.dto.DetailedAppointmentDTO;
 import com.app.entity.Appointment;
 import com.app.entity.Doctor;
 import com.app.entity.Patient;
@@ -61,11 +63,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public AppointmentDTO updateAppointment(Long appointmentId, AppointmentDTO appointmentDto) {
-		Appointment appointment = appointmentRepo.findById(appointmentId)
-				.orElseThrow(() -> new RuntimeException("Appointment not found with id : " + appointmentId));
+	    Appointment appointment = appointmentRepo.findById(appointmentId)
+	            .orElseThrow(() -> new RuntimeException("Appointment not found with id : " + appointmentId));
 
-//		appointment.setPatient(appointmentDto.getPatientId());
-		return null;
+	    // Add logic here to update appointment fields
+	    appointment.setStatus(appointmentDto.getStatus());
+
+	    appointment = appointmentRepo.save(appointment); // Save the updated appointment
+
+	    return mapper.map(appointment, AppointmentDTO.class);
 	}
 
 	@Override
@@ -91,5 +97,34 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointmentRepo.delete(appointment);
 
 	}
+	
+	@Override
+	public List<DetailedAppointmentDTO> getAppointmentsByDoctorId(Long doctorId) {
+		User user = userrepo.getById(doctorId);
+		Optional<Doctor> doctor = doctorRepo.findByUser(user);
+	    List<Appointment> appointments = appointmentRepo.findAppointmentsByDoctorId(doctor.get().getId());
+
+	    return appointments.stream()
+	            .map(appointment -> {
+	                // Fetch patient details
+	                Patient patient = appointment.getPatient();
+	                User patientUser = patient.getUser(); // Access the User details from Patient
+
+	                // Map appointment and patient details to DetailedAppointmentDTO
+	                return new DetailedAppointmentDTO(
+	                        appointment.getId(),
+	                        appointment.getDoctor().getId(),
+	                        appointment.getAppointmentDate(),
+	                        appointment.getStatus(),
+	                        patient.getId(), // Patient ID
+	                        patientUser.getName(), // Patient name
+	                        patientUser.getEmail(), // Patient email
+	                        patientUser.getContactNumber(), // Patient contact number
+	                        patientUser.getAddress() // Patient address
+	                );
+	            })
+	            .collect(Collectors.toList());
+	}
+
 
 }

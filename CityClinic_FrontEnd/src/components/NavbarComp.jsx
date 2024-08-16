@@ -28,10 +28,10 @@ export default function NavbarComp() {
 
     const navItems = [
         { label: 'Home', path: '/' },
-        { label: 'Login', path: '/login' },
         { label: 'Dashboard', path: '/dashboard' },
         { label: 'Clinic', path: '/ListOfClinics' },
         { label: 'Profile', path: '/profile' },
+        { label: 'Login', path: '/login' },
     ];
 
     return (

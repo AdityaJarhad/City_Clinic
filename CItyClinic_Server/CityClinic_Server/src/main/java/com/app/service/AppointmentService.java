@@ -3,6 +3,7 @@ package com.app.service;
 import java.util.List;
 
 import com.app.dto.AppointmentDTO;
+import com.app.dto.DetailedAppointmentDTO;
 
 public interface AppointmentService {
 	
@@ -15,4 +16,6 @@ public interface AppointmentService {
 	List<com.app.dto.AppointmentDTO> getAllAppointments();
 
 	void deleteAppointment(Long appointmentId);
+	
+	 public List<DetailedAppointmentDTO> getAppointmentsByDoctorId(Long doctorId);
 }
