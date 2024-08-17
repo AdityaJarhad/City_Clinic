@@ -82,48 +82,50 @@ const Appointments = () => {
                     <option value="week">This Week</option>
                 </select>
             </div>
-            <table className="w-full table-auto border-collapse border border-gray-200">
-                <thead>
-                    <tr>
-                        <th className="border border-gray-300 p-2">ID</th>
-                        <th className="border border-gray-300 p-2">Patient</th>
-                        <th className="border border-gray-300 p-2">Patient Contact Number</th>
-                        <th className="border border-gray-300 p-2">Patient Email</th>
-                        <th className="border border-gray-300 p-2">Date</th>
-                        <th className="border border-gray-300 p-2">Status</th>
-                        <th className="border border-gray-300 p-2">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {appointments.map(appointment => (
-                        <tr key={appointment.appointmentId}>
-                            <td className="border border-gray-300 p-2">{appointment.appointmentId}</td>
-                            <td className="border border-gray-300 p-2">{appointment.patientName}</td>
-                            <td className="border border-gray-300 p-2">{appointment.patientContactNumber}</td>
-                            <td className="border border-gray-300 p-2">{appointment.patientEmail}</td>
-                            <td className="border border-gray-300 p-2">{new Date(appointment.appointmentDate).toLocaleDateString()}</td>
-                            <td className="border border-gray-300 p-2">{appointment.status}</td>
-                            <td className="border border-gray-300 p-2">
-                                <button
-                                    onClick={() => handleUpdateStatus(appointment.appointmentId)}
-                                    className="bg-blue-500 text-white p-2 rounded"
-                                >
-                                    Update Status
-                                </button>
-                                <select
-                                    value={appointment.newStatus || appointment.status}
-                                    onChange={(e) => handleStatusChange(appointment.appointmentId, e.target.value)}
-                                    className="ml-2 border p-1 rounded"
-                                >
-                                    <option value="Confirmed">Confirmed</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                </select>
-                            </td>
+            <div className="overflow-x-auto bg-white shadow-sm rounded-lg">
+                <table className="min-w-full divide-y divide-gray-300">
+                    <thead className="bg-gray-200">
+                        <tr>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Patient</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Patient Contact Number</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Patient Email</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Action</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-300">
+                        {appointments.map(appointment => (
+                            <tr key={appointment.appointmentId}>
+                                <td className="px-4 py-4 text-sm font-medium text-gray-900">{appointment.appointmentId}</td>
+                                <td className="px-4 py-4 text-sm text-gray-700">{appointment.patientName}</td>
+                                <td className="px-4 py-4 text-sm text-gray-700">{appointment.patientContactNumber}</td>
+                                <td className="px-4 py-4 text-sm text-gray-700">{appointment.patientEmail}</td>
+                                <td className="px-4 py-4 text-sm text-gray-700">{new Date(appointment.appointmentDate).toLocaleDateString()}</td>
+                                <td className="px-4 py-4 text-sm text-gray-700">{appointment.status}</td>
+                                <td className="px-4 py-4 text-sm text-gray-700">
+                                    <button
+                                        onClick={() => handleUpdateStatus(appointment.appointmentId)}
+                                        className="bg-blue-500 text-white p-2 rounded"
+                                    >
+                                        Update Status
+                                    </button>
+                                    <select
+                                        value={appointment.newStatus || appointment.status}
+                                        onChange={(e) => handleStatusChange(appointment.appointmentId, e.target.value)}
+                                        className="ml-2 border p-1 rounded"
+                                    >
+                                        <option value="Confirmed">Confirmed</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };
