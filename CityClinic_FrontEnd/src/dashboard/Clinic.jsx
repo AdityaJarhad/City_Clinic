@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { toast, Toaster } from 'react-hot-toast';
 const Clinic = () => {
     const navigate = useNavigate();
     const userId = JSON.parse(localStorage.getItem("user"))?.user?.id; // Get the user ID from local storage
@@ -63,15 +63,17 @@ const Clinic = () => {
                   const errorData = await response.json();
                   console.error('Doctor not found:', errorData.message);
                   // Show a user-friendly message in your UI
-                  alert('Doctor not found. Please check the user ID or register a new doctor.');
+                  toast.error('Doctor not found. Please check the user ID or register a new doctor.');
               } else {
                   // Handle other error responses
                   const errorData = await response.json();
                   console.error('Failed to fetch doctor details:', errorData.message);
+                  toast.error('Failed to fetch doctor details.');
               }
           } catch (error) {
               console.error('Error fetching doctor details:', error);
               // Set error state or show a user-friendly message in the UI
+              toast.error('Error fetching doctor details.');
           }
       };
   
@@ -112,9 +114,11 @@ const Clinic = () => {
 
                 if (updateResponse.ok) {
                     console.log('Doctor details updated successfully');
-                    navigate('/dashboard'); // Redirect to dashboard after successful update
+                    toast.success('Doctor details updated successfully');
+                    //navigate('/dashboard'); // Redirect to dashboard after successful update
                 } else {
                     console.error('Failed to update doctor details');
+                    toast.error('Failed to update doctor details.');
                 }
             } else {
                 // If the doctor does not exist, register a new doctor
@@ -128,13 +132,16 @@ const Clinic = () => {
 
                 if (registerResponse.ok) {
                     console.log('Doctor registered successfully');
-                    navigate('/dashboard'); // Redirect to dashboard after successful registration
+                    toast.success('Doctor registered successfully');
+                   // navigate('/dashboard'); // Redirect to dashboard after successful registration
                 } else {
+                    toast.error('Failed to register doctor.');
                     console.error('Failed to register doctor');
                 }
             }
         } catch (error) {
             console.error('Error:', error);
+            toast.error('An error occurred.');
         }
     };
 
@@ -293,6 +300,7 @@ const Clinic = () => {
                     {clinicDetails.userId ? 'Update Doctor' : 'Update'}
                 </button>
             </form>
+            <Toaster position='bottom-center'/>
         </div>
     );
 };

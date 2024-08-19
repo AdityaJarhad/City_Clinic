@@ -1,10 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast, Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-
 
 const Login = () => {
     const [credentials, setCredentials] = useState({
@@ -12,36 +10,43 @@ const Login = () => {
         password: ""
     });
 
+    const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
+        setErrors({ ...errors, [name]: "" }); // Clear the error for the specific field on change
     };
-
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(credentials);
         try {
             const response = await axios.post('https://localhost:8080/api/users/signin', {
                 email: credentials.email,
                 password: credentials.password
             });
     
-            const token = response.data.jwt; // Corrected to access the right property
-            const user = response.data.user; // Get user details from the response
-            console.log(response.data);
-            localStorage.setItem("token", token); // Store the token in local storage
-            localStorage.setItem("user", JSON.stringify(user)); // Store user details in local storage
+            const token = response.data.jwt;
+            const user = response.data.user;
+            localStorage.setItem("token", token);
+            localStorage.setItem("user", JSON.stringify(user));
             toast.success("Successfully logged in");
-            navigate("/"); // Redirect to home page or other destination
+            navigate("/");
         } catch (error) {
-            console.error('Error logging in:', error.response ? error.response.data : error.message);
-            toast.error("Login failed. Please check your credentials.");
+            if (error.response && error.response.data) {
+                const responseErrors = error.response.data;
+                setErrors(responseErrors);
+                if (responseErrors.message) {
+                    toast.error(responseErrors.message);
+                } else {
+                    toast.error("Login failed. Please check your credentials.");
+                }
+            } else {
+                toast.error("An unexpected error occurred. Please try again later.");
+            }
         }
     };
-    
-
 
     return (
         <div>
@@ -67,8 +72,9 @@ const Login = () => {
                                     onChange={handleChange}
                                     required
                                     autoComplete="email"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                                    className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${errors.email ? 'ring-red-500' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6`}
                                 />
+                                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                             </div>
                         </div>
 
@@ -85,8 +91,9 @@ const Login = () => {
                                     onChange={handleChange}
                                     required
                                     autoComplete="current-password"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                                    className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${errors.password ? 'ring-red-500' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6`}
                                 />
+                                {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
                             </div>
                         </div>
 
@@ -101,9 +108,9 @@ const Login = () => {
                     </form>
 
                     <p className="mt-10 text-center text-sm text-gray-500">
-                     Not a member?{' '}
+                        Not a member?{' '}
                         <Link to="/register" className="font-semibold leading-6 text-blue-700 hover:text-blue-500">
-                             Register here
+                            Register here
                         </Link>
                     </p>
                 </div>
@@ -113,4 +120,4 @@ const Login = () => {
     );
 };
 
-export default Login; // Default export
+export default Login;
