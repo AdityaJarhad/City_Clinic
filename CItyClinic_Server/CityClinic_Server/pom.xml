@@ -52,6 +52,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!--mailsender dependency-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -75,7 +82,7 @@
 			<!-- <version>3.14.0</version> -->
 		</dependency>
 		
-		<!--securitya adddd iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii  -->
+		<!--security config -->
 		<!-- Adding spring security support -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

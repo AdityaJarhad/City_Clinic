@@ -23,6 +23,8 @@ import com.app.repository.IDoctorRepository;
 import com.app.repository.IPatientRepository;
 import com.app.repository.IUserRepository;
 
+
+@SuppressWarnings("deprecation")
 @Service
 @Transactional
 public class AppointmentServiceImpl implements AppointmentService {
@@ -41,11 +43,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	private IDoctorRepository doctorRepo;
+	
+	@Autowired
+    private EmailService emailService;
 
 	@Override
 	public AppointmentDTO createAppointment(AppointmentDTO appointmentDto) {
 
-		@SuppressWarnings("deprecation")
+	
 		User user = userrepo.getById(appointmentDto.getPatientId());
 		Patient patient = patientRepo.findByUser(user);
 		appointmentDto.setPatientId(patient.getId());
@@ -68,10 +73,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 	    Appointment appointment = appointmentRepo.findById(appointmentId)
 	            .orElseThrow(() -> new RuntimeException("Appointment not found with id : " + appointmentId));
 
-	    // Add logic here to update appointment fields
+	    
 	    appointment.setStatus(appointmentDto.getStatus());
 
-	    appointment = appointmentRepo.save(appointment); // Save the updated appointment
+	    appointment = appointmentRepo.save(appointment); 
+	    
+	 // Send email notification to the patient
+        Patient patient = appointment.getPatient();
+        String patientEmail = patient.getUser().getEmail();
+        String subject = "Appointment Status Update";
+        String body = "Dear " + patient.getUser().getName() + ",\n\n" +
+                      "Your appointment status has been updated to: " + appointment.getStatus() + ".\n\n" +
+                      "Thank you,\nCity Clinic System";
+
+        emailService.sendSimpleEmail(patientEmail, subject, body);
+
 
 	    return mapper.map(appointment, AppointmentDTO.class);
 	}
@@ -80,7 +96,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public AppointmentDTO getAppointmentById(Long appointmentId) {
 		Appointment appointment = appointmentRepo.findById(appointmentId)
 				.orElseThrow(() -> new RuntimeException("Appointment not found with id : " + appointmentId));
-
+		
+		
 		return mapper.map(appointment, AppointmentDTO.class);
 	}
 
