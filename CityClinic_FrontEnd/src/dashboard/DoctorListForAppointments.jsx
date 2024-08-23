@@ -6,7 +6,7 @@ const DoctorListForAppointments = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('https://localhost:8080/api/doctors')
+    fetch('/api/doctors')
       .then((response) => response.json())
       .then((data) => {
         console.log(data); // Log the data to inspect the structure

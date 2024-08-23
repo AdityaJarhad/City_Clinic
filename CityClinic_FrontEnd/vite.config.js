@@ -4,4 +4,14 @@ import react from '@vitejs/plugin-react-swc'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-})
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://localhost:8080',
+        changeOrigin: true,
+        secure: false, // This allows self-signed certificates
+        // prependPath is handled automatically, so you don't need to set it manually
+      },
+    },
+  },
+});

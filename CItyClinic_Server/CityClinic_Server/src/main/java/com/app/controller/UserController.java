@@ -30,7 +30,8 @@ import com.app.security.CustomUserDetailsService;
 import com.app.security.JwtUtils;
 import com.app.service.UserService;
 
-@CrossOrigin(origins ="http://localhost:5173")
+//@CrossOrigin(origins ="http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://cityclinic.vercel.app"})
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

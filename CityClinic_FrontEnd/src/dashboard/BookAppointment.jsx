@@ -29,7 +29,7 @@ const BookAppointment = () => {
     console.log('Appointment Data:', appointmentData);
 
     try {
-      const response = await axios.post('https://localhost:8080/api/appointment/post', appointmentData);
+      const response = await axios.post('/api/appointment/post', appointmentData);
       console.log('Appointment booked:', response.data);
       setMessage("Appointment booked successfully!");
       setErrorMessage(''); // Clear any previous error messages

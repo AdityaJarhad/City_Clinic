@@ -38,7 +38,7 @@ const Clinic = () => {
     useEffect(() => {
       const fetchDoctorDetails = async () => {
           try {
-              const response = await fetch(`https://localhost:8080/api/doctors/user/${userId}`);
+              const response = await fetch(`/api/doctors/user/${userId}`);
               if (response.ok) {
                   const existingDoctor = await response.json();
                   setExists(true); 
@@ -104,7 +104,7 @@ const Clinic = () => {
         try {
             if (exists) {
                 // If the doctor exists, update their details
-                const updateResponse = await fetch(`https://localhost:8080/api/doctors/${userId}`, {
+                const updateResponse = await fetch(`/api/doctors/${userId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const Clinic = () => {
                 }
             } else {
                 // If the doctor does not exist, register a new doctor
-                const registerResponse = await fetch('https://localhost:8080/api/doctors/register', {
+                const registerResponse = await fetch('/api/doctors/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

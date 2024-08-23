@@ -6,7 +6,7 @@ const ReviewManagement = () => {
 
     useEffect(() => {
         const fetchReviews = async () => {
-            const response = await fetch('http://localhost:8080/reviews');
+            const response = await fetch('/reviews');
             const data = await response.json();
             setReviews(data);
         };

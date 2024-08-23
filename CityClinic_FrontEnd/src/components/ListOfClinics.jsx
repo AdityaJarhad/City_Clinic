@@ -8,7 +8,7 @@ const ListOfClinics = () => {
   useEffect(() => {
     const fetchClinics = async () => {
       try {
-        const response = await fetch('https://localhost:8080/api/doctors'); // Use the provided URL
+        const response = await fetch('/api/doctors'); // Use the provided URL
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

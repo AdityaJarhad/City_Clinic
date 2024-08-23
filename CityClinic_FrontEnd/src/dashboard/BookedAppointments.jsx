@@ -5,9 +5,9 @@ const BookedAppointments = () => {
     const [appointments, setAppointments] = useState([]);
     const user = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
-        // Assuming the patient's ID is stored in localStorage after login
+        
         const patientId = user.user.id;
-        axios.get(`https://localhost:8080/api/appointment/booked/${patientId}`)
+        axios.get(`/api/appointment/booked/${patientId}`)
             .then(response => {
                 setAppointments(response.data);
             })

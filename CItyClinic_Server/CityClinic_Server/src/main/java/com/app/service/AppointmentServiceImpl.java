@@ -3,6 +3,7 @@ package com.app.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -11,9 +12,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dto.AppointmentDTO;
 import com.app.dto.BookedAppointmentDTO;
 import com.app.dto.DetailedAppointmentDTO;
+import com.app.dto.PatientInfo;
 import com.app.entity.Appointment;
 import com.app.entity.Doctor;
 import com.app.entity.Patient;
@@ -213,13 +216,42 @@ public class AppointmentServiceImpl implements AppointmentService {
 	                        appointment.getAppointmentDate(),
 	                        appointment.getStatus(),
 	                        patient.getId(), // Patient ID
-	                        patientUser.getName(), // Patient name
-	                        patientUser.getEmail(), // Patient email
-	                        patientUser.getContactNumber(), // Patient contact number
-	                        patientUser.getAddress() // Patient address
+	                        patientUser.getName(), 
+	                        patientUser.getEmail(), 
+	                        patientUser.getContactNumber(), 
+	                        patientUser.getAddress() 
 	                );
 	            })
 	            .collect(Collectors.toList());
     }
-	
+    
+
+    
+    public List<PatientInfo> getPatientsByDoctorId(Long doctorId) {
+    	User user = userrepo.getById(doctorId);
+		Optional<Doctor> doctor = doctorRepo.findByUser(user);
+        List<Appointment> appointments = appointmentRepo.findAppointmentsByDoctorId(doctor.get().getId());
+        Set<Patient> patients = appointments.stream()
+                .map(Appointment::getPatient)
+                .collect(Collectors.toSet());
+        return patients.stream()
+                .map(patient -> new PatientInfo(patient.getId(), patient.getUser().getName(), patient.getUser().getContactNumber()))
+                .collect(Collectors.toList());
+    }
+    
+    
+    public PatientInfo getPatientInfoByAppointmentId(Long appointmentId, Long doctorId) {
+    	User user = userrepo.getById(doctorId);
+		Optional<Doctor> doctor = doctorRepo.findByUser(user);
+        Appointment appointment = appointmentRepo.findByIdAndDoctorId(appointmentId,doctor.get().getId());
+        if (appointment == null) {
+            throw new ResourceNotFoundException("Appointment with ID " + appointmentId + " and Doctor ID " + doctorId + " not found.");
+        }
+        Long patientId = appointment.getPatient().getId();
+        Patient patient = patientRepo.findById(patientId)
+                                           .orElseThrow(() -> new ResourceNotFoundException("Patient with ID " + patientId + " not found."));
+        
+        return new PatientInfo(patient.getId(), patient.getUser().getName(), patient.getUser().getContactNumber());
+    }
+    
 }

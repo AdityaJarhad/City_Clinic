@@ -44,7 +44,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     @Transactional
     public void registerDoctor(DoctorRegistrationRequest request) {
-        // Step 1: Create and save Location
+        // save Location
         Location location = new Location();
         location.setAddress(request.getLocationAddress());
         location.setCity(request.getLocationCity());
@@ -53,7 +53,7 @@ public class DoctorServiceImpl implements DoctorService {
         location.setCountry(request.getLocationCountry());
         locationRepository.save(location);
 
-        // Step 2: Create and save Clinic
+        // save Clinic
         Clinic clinic = new Clinic();
         clinic.setName(request.getClinicName());
         clinic.setMoNo(request.getClinicMoNo());
@@ -62,18 +62,18 @@ public class DoctorServiceImpl implements DoctorService {
         clinic.setLocation(location); // Associate the clinic with the location
         clinicRepository.save(clinic);
 
-        // Step 3: Find User and Specialization
+        //  Find User and Specialization
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found")); // Handle user not found case
+                .orElseThrow(() -> new RuntimeException("User not found")); 
 
         Specialization specialization = specializationRepository.findById(request.getSpecializationId())
-                .orElseThrow(() -> new RuntimeException("Specialization not found")); // Handle specialization not found case
+                .orElseThrow(() -> new RuntimeException("Specialization not found")); 
 
-        // Step 4: Create and save Doctor
+        //  save Doctor
         Doctor doctor = new Doctor();
-        doctor.setUser(user); // Set the user as a primary key
-        doctor.setSpecialization(specialization); // Set the specialization
-        doctor.setClinic(clinic); // Set the clinic
+        doctor.setUser(user); 
+        doctor.setSpecialization(specialization); 
+        doctor.setClinic(clinic); 
         doctor.setQualifications(request.getQualifications());
         doctor.setExperience(request.getExperience());
         doctor.setAvailabilitySchedule(request.getAvailabilitySchedule());
@@ -113,8 +113,7 @@ public class DoctorServiceImpl implements DoctorService {
         doctor.setAvailabilitySchedule(request.getAvailabilitySchedule());
         doctor.setProfilePicture(request.getProfilePicture());
 
-        // If clinic or location needs to be updated
-        // Example: Update clinic details if provided in the request
+        // Update clinic details if provided in the request
         if (request.getClinicName() != null) {
             Clinic clinic = doctor.getClinic();
             clinic.setName(request.getClinicName());
@@ -134,7 +133,7 @@ public class DoctorServiceImpl implements DoctorService {
             clinicRepository.save(clinic);
         }
 
-        doctorRepository.save(doctor); // Save updated doctor entity
+        doctorRepository.save(doctor); 
     }
 
     @Override

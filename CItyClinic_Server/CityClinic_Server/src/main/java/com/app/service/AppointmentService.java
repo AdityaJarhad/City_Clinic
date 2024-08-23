@@ -6,6 +6,7 @@ import java.util.List;
 import com.app.dto.AppointmentDTO;
 import com.app.dto.BookedAppointmentDTO;
 import com.app.dto.DetailedAppointmentDTO;
+import com.app.dto.PatientInfo;
 
 public interface AppointmentService {
 	
@@ -26,4 +27,8 @@ public interface AppointmentService {
 	 public List<DetailedAppointmentDTO> getAppointmentsByDoctorIdAndDate(Long doctorId, LocalDate date);
 	 
 	 public List<DetailedAppointmentDTO> getAppointmentsByDoctorIdAndDateRange(Long doctorId, LocalDate startDate, LocalDate endDate);
+	 
+	 public PatientInfo getPatientInfoByAppointmentId(Long appointmentId, Long doctorId);
+	 
+	 public List<PatientInfo> getPatientsByDoctorId(Long doctorId);
 }

@@ -6,14 +6,14 @@ import App from '../App';
 import Dashboard from "../dashboard/Dashboard";
 
 import MedicalHistory from "../dashboard/MedicalHistory"; 
+import PatientMedicalHistory from "../dashboard/PatientMedicalHistory";
 import ReviewManagement from "../dashboard/ReviewManagement"; 
-import UserManagement from "../dashboard/UserManagement"; 
-import UserDetail from "../dashboard/UserDetail"; 
 import Clinic from "../dashboard/Clinic";
 import DoctorListForAppointments from "../dashboard/DoctorListForAppointments";
 import BookAppointment from "../dashboard/BookAppointment";
 import BookedAppointments from "../dashboard/BookedAppointments";
 import Appointments from "../dashboard/Appointments";
+import DoctorPatients from "../dashboard/DoctorPatients";
 import Login from "../Components/Login";
 import HomeComp from "../Components/HomeComp"; // Updated to HomeComp based on the first example
 import NotFound from "../Components/NotFound"; // Import the NotFound component
@@ -39,16 +39,16 @@ const router = createBrowserRouter([
                 element: <Dashboard />, // Removed DashboardLayout
             },
             {
-                path: "/dashboard/medical-history",
+                path: "/dashboard/medical-history/:patientId",
                 element: <MedicalHistory />,
+            },
+            {
+                path: "/dashboard/patient-medical-history",
+                element: <PatientMedicalHistory />,
             },
             {
                 path: "/dashboard/reviews",
                 element: <ReviewManagement />,
-            },
-            {
-                path: "/dashboard/users",
-                element: <UserManagement />,
             },
             {
                 path: "/dashboard/clinic",
@@ -67,14 +67,13 @@ const router = createBrowserRouter([
                 element: <DoctorListForAppointments />, // Route for the new component
             },
             {
-                path: "/dashboard/user/:id",
-                element: <UserDetail />,
-                loader: ({ params }) => fetch(`http://localhost:8080/users/${params.id}`)
-            },
-            {
                 path: "/dashboard/appointments",
                 element: <Appointments />, // Route for the Appointments component
               },
+              {
+                path: "/dashboard/doctor-patients",
+                element: <DoctorPatients />,
+            },            
             {
                 path: "/ListOfClinics",
                 element: <ListOfClinics />,

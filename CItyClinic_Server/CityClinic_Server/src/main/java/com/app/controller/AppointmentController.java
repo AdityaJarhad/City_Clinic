@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,15 +20,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.custom_exceptions.ResourceNotFoundException;
+import com.app.dto.ApiResponse;
 import com.app.dto.AppointmentDTO;
 import com.app.dto.BookedAppointmentDTO;
 import com.app.dto.DetailedAppointmentDTO;
+import com.app.dto.PatientInfo;
 import com.app.service.AppointmentService;
 
 
-@CrossOrigin(origins ="http://localhost:5173")
+//@CrossOrigin(origins ="http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://cityclinic.vercel.app"})
 @RestController
 @RequestMapping("/api/appointment")
 public class AppointmentController {
@@ -109,6 +115,22 @@ public class AppointmentController {
 	        return ResponseEntity.ok(appointments);
 	    }
 	
+	    
+	    @GetMapping("/doctor/{doctorId}/patients")
+	    public ResponseEntity<List<PatientInfo>> getPatientsByDoctorId(@PathVariable Long doctorId) {
+	        List<PatientInfo> patients = appointmentService.getPatientsByDoctorId(doctorId);
+	        return ResponseEntity.ok(patients);
+	    }
+	    
+	    
+	    @GetMapping("/search")
+	    public ResponseEntity<?> searchPatientByAppointment(@RequestParam Long appointmentId, @RequestParam Long doctorId) {
+	            PatientInfo patientInfo = appointmentService.getPatientInfoByAppointmentId(appointmentId, doctorId);
+	         
+	            return ResponseEntity.ok(patientInfo);
+	        
+	    }
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteAppointment(@PathVariable Long id){
 		
